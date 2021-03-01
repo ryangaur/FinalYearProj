@@ -1,0 +1,250 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2512
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww23660\viewh14980\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 \expnd0\expndtw0\kerning0
+# Initialise Libraries\
+\
+import tkinter as tkinter\
+import PiMotor\
+\
+# \'a0Initialise Motors\
+m1 = PiMotor.Motor("MOTOR1", 1)\
+m2 = PiMotor.Motor("MOTOR3", 1)\
+\
+\
+\
+# Instructions for starting and stopping motors\
+\
+def M1Start():\
+\'a0 \'a0 speed = float(w1.get())				# Collects user defined speed value\
+\'a0 \'a0 motor_button[0].configure()			# Button on and off\
+\'a0 \'a0 motor_button[1].configure()\
+\'a0 \'a0 if var1.get() == 1:\
+\'a0 \'a0 \'a0 \'a0 m1.forward((speed))			# Forward and backwards buttons\
+\'a0 \'a0 elif var1.get() == 2:\
+\'a0 \'a0 \'a0 \'a0 m1.reverse(speed)\
+\'a0 \'a0 else:\
+\'a0 \'a0 \'a0 \'a0 print("M1 - Error")\
+\'a0 \'a0 \'a0 \'a0 m1.stop()\
+\
+\
+def M1Stop():\
+\'a0 \'a0 motor_button[0].configure(bg='white', activebackground="green")	# Set colours for active and passive buttons\
+\'a0 \'a0 motor_button[1].configure(bg='red', activebackground="gray")\
+\'a0 \'a0 print("Motor1 Stop")\
+\'a0 \'a0 m1.stop()\
+\
+\
+def M2Start():\
+\'a0 \'a0 speed = float(w3.get())\
+\'a0 \'a0 motor_button[2].configure(bg='green', activebackground="gray")\
+\'a0 \'a0 motor_button[3].configure(bg='white', activebackground="red")\
+\'a0 \'a0 if var3.get() == 1:\
+\'a0 \'a0 \'a0 \'a0 m2.forward((speed))\
+\'a0 \'a0 elif var3.get() == 2:\
+\'a0 \'a0 \'a0 \'a0 m2.reverse(speed)\
+\'a0 \'a0 else:\
+\'a0 \'a0 \'a0 \'a0 print("M2 - Error")\
+\'a0 \'a0 \'a0 \'a0 m2.stop()\
+\
+\
+def M2Stop():\
+\'a0 \'a0 motor_button[2].configure(bg='white', activebackground="green")\
+\'a0 \'a0 motor_button[3].configure(bg='red', activebackground="gray")\
+\'a0 \'a0 print("Motor2 Stop")\
+\'a0 \'a0 m2.stop()\
+\
+# Actions of arrows when activated\
+\
+def A1_On():\
+\'a0 \'a0 arrow_canvas[2].itemconfig(1, fill='blue')					# Set active and passive colours\
+\'a0 \'a0 button_led[4].configure(bg="blue", activebackground="gray")\
+\'a0 \'a0 button_led[5].configure(bg="gray", activebackground="red")\
+\'a0 \'a0 print("Arrow-F ON")\
+\
+\
+def A1_Off():\
+\'a0 \'a0 arrow_canvas[2].itemconfig(1, fill='white')\
+\'a0 \'a0 button_led[4].configure(bg="gray", activebackground="green")\
+\'a0 \'a0 button_led[5].configure(bg="red", activebackground="red")\
+\'a0 \'a0 print("Arrow-F OFF")\
+\
+\
+def A2_On():\
+\'a0 \'a0 arrow_canvas[1].itemconfig(1, fill='red')\
+\'a0 \'a0 button_led[0].configure(bg="green", activebackground="gray")\
+\'a0 \'a0 button_led[1].configure(bg="gray", activebackground="red")\
+\'a0 \'a0 print("Arrow-L ON")\
+\
+\
+def A2_Off():\
+\'a0 \'a0 arrow_canvas[1].itemconfig(1, fill='white')\
+\'a0 \'a0 button_led[0].configure(bg="gray", activebackground="green")\
+\'a0 \'a0 button_led[1].configure(bg="red", activebackground="red")\
+\'a0 \'a0 print("Arrow-L OFF")\
+\
+\
+def A3_On():\
+\'a0 \'a0 arrow_canvas[0].itemconfig(1, fill='red')\
+\'a0 \'a0 button_led[2].configure(bg="green", activebackground="gray")\
+\'a0 \'a0 button_led[3].configure(bg="gray", activebackground="red")\
+\'a0 \'a0 print("Arrow-R ON")\
+\
+\
+def A3_Off():\
+\'a0 \'a0 arrow_canvas[0].itemconfig(1, fill='white')\
+\'a0 \'a0 button_led[2].configure(bg="gray", activebackground="green")\
+\'a0 \'a0 button_led[3].configure(bg="red", activebackground="red")\
+\'a0 \'a0 print("Arrow-R OFF")\
+\
+\
+def A4_On():\
+\'a0 \'a0 arrow_canvas[3].itemconfig(1, fill='blue')\
+\'a0 \'a0 button_led[6].configure(bg="green", activebackground="gray")\
+\'a0 \'a0 button_led[7].configure(bg="gray", activebackground="red")\
+\'a0 \'a0 print("Arrow-B ON")\
+\
+\
+def A4_Off(): \
+\'a0 \'a0 arrow_canvas[3].itemconfig(1, fill='white')\
+\'a0 \'a0 button_led[6].configure(bg="gray", activebackground="green")\
+\'a0 \'a0 button_led[7].configure(bg="red", activebackground="red")\
+\'a0 \'a0 print("Arrow-B OFF")\
+\
+# Format position and size of window\
+\
+window = tkinter.Tk()\
+\
+windowWidth = window.winfo_reqwidth()\
+windowHeight = window.winfo_reqheight()\
+\
+\
+positionRight = int(window.winfo_screenwidth() / 3 - windowWidth / 2)\
+positionDown = int(window.winfo_screenheight() / 4 - windowHeight / 2)\
+\
+window.geometry("680x600+\{\}+\{\}".format(positionRight, positionDown))\
+\
+window.title("Motor Control")\
+window.resizable(False, False)\
+\
+frame = tkinter.Frame(window)\
+frame.pack(fill='both', expand='1')\
+frame.configure(bg='blue')\
+\
+# Create Matrix for Arrow Shape\
+\
+shape1 = [(1, 36, 76, 36, 76, 16, 106, 46, 76, 76, 76, 56, 1, 56)]\
+shape2 = [(193, 40, 118, 40, 118, 20, 88, 50, 118, 80, 118, 60, 193, 60)]\
+shape3 = [(45, 210, 45, 150, 25, 150, 55, 110, 85, 150, 65, 150, 65, 210)]\
+shape4 = [(45, 0, 45, 55, 25, 55, 55, 105, 85, 55, 65, 55, 65, 0)]\
+\
+# Create Matrix for Arrow Position\
+\
+POS = [(shape1, "white", 100, 200, 380, 270),\
+\'a0 \'a0 \'a0 \'a0 \'a0 (shape2, "white", 100, 200, 100, 270),\
+\'a0 \'a0 \'a0 \'a0 \'a0 (shape3, "white", 245, 100, 285, 60),\
+\'a0 \'a0 \'a0 \'a0 \'a0 (shape4, "white", 245, 100, 285, 380)]\
+\
+# \'a0Determines no. arrows and appearance\
+\
+arrow_canvas = []\
+for b in range(4):												# Four arrows on the interface\
+\'a0 \'a0 canvas = tkinter.Canvas(frame, height=POS[b][2], width=POS[b][3],		# Uses earlier built matrices\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 highlightthickness=0, bd=0)\
+\'a0 \'a0 canvas.configure(bg='blue')\
+\'a0 \'a0 canvas.create_polygon((POS[b][0]), fill=POS[b][1], outline="white",		# Allows configuration of arrow colour\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 width=1)\
+\'a0 \'a0 canvas.place(x=POS[b][4], y=POS[b][5])\
+\'a0 \'a0 arrow_canvas.append(canvas)\
+\
+# Boxes that house controls\
+\
+BOX = [(30, 60), (450, 60)]\
+\
+for b in range(2):														# One box for each motor\
+\'a0 \'a0 cmd = lambda x=b: FUNC[b][0]\
+\'a0 \'a0 cmd = lambda x=b: FUNC[b][1]\
+\'a0 \'a0 canvas = tkinter.Canvas(frame, bg="Black", height=200, width=200,\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 highlightthickness=0, bd=0)\
+\'a0 \'a0 canvas.create_rectangle(195, 195, 5, 5, outline="blue", width=4)				# Regular shape, tinter.Canvas can create one\
+\'a0 \'a0 canvas.place(x=BOX[b][0], y=BOX[b][1])\
+\
+# \'a0Start/Stop Button\
+\
+BUTTON = [(50, 205), (153, 205), (470, 205), (573, 205)]\
+FUNC = [("START", "white", "green", M1Start), ("STOP", "red", "gray", M1Stop),		# Call start/ stop buttons when pressed\
+\'a0 \'a0 \'a0 \'a0 ("START", "white", "green", M2Start), ("STOP", "red", "gray", M2Stop),]\
+\
+# Determines no. buttons and proportions\
+\
+motor_button = []\
+for b in range(4):\
+\'a0 \'a0 cmd = lambda x=b: FUNC[b][2]\
+\'a0 \'a0 m_button = tkinter.Button(frame, height=1, width=4, text=FUNC[b][0],			# Similar to Canvas but for Buttons\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 fg="blue", bg=FUNC[b][1], command=FUNC[b][3],\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 highlightthickness=0,\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 activebackground=FUNC[b][2])\
+\'a0 \'a0 m_button.place(x=BUTTON[b][0], y=BUTTON[b][1])\
+\'a0 \'a0 motor_button.append(m_button)											# Takes items from the array into the button\
+\
+# \'a0Labels\
+\
+LABEL = [("Motor 1", 15, "White", 90, 70),\
+\'a0 \'a0 \'a0 \'a0 \'a0 ("Motor 2", 15, "White", 510, 70),\
+\'a0 \'a0 \'a0 \'a0 \'a0 ("Rover Motor Control", 20, "Orange", 225, 5),\
+\'a0 \'a0 \'a0 \'a0 \'a0 ("Direction", 12, "Cyan", 40, 95),\
+\'a0 \'a0 \'a0 \'a0 \'a0 ("Speed: in %", 12, "Cyan", 50, 160),\
+\'a0 \'a0 \'a0 \'a0 \'a0 ("Direction", 12, "Cyan", 460, 95),\
+\'a0 \'a0 \'a0 \'a0 \'a0 ("Speed: in %", 12, "Cyan", 470, 160),]\
+\
+# Format labels within boxes\
+\
+for b in range(7):\
+\'a0 \'a0 lbl = tkinter.Label(frame, text=LABEL[b][0], bg="Black",\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 font=('Helvetica', LABEL[b][1]), fg=LABEL[b][2])\
+\'a0 \'a0 lbl.place(x=LABEL[b][3], y=LABEL[b][4])\
+\
+# \'a0Matrices for Arrow On/Off Buttons\
+\
+BUTTONS = [(100, 270), (100, 330), (530, 270), (530, 330),\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0(280, 110), (358, 110), (280, 500), (358, 500)]\
+FUNC = [("ON", "green2", "gray", A2_On), ("OFF", "red", "red", A2_Off),\
+\'a0 \'a0 \'a0 \'a0 ("ON", "green2", "gray", A3_On), ("OFF", "red", "red", A3_Off),\
+\'a0 \'a0 \'a0 \'a0 ("ON", "green2", "gray", A1_On), ("OFF", "red", "red", A1_Off),\
+\'a0 \'a0 \'a0 \'a0 ("ON", "green2", "gray", A4_On), ("OFF", "red", "red", A4_Off), ]\
+\
+# Position arrow buttons\
+\
+button_led = []\
+for b in range(8):\
+\'a0 \'a0 cmd = lambda x=b: FUNC[b][3]\
+\'a0 \'a0 button_on_off = tkinter.Button(frame, height=1, width=3, text=FUNC[b][0],\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0activebackground=FUNC[b][1],\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0bg=FUNC[b][2], bd=2, command=FUNC[b][3])\
+\'a0 \'a0 button_on_off.place(x=BUTTONS[b][0], y=BUTTONS[b][1])\
+\'a0 \'a0 button_led.append(button_on_off)\
+\
+# Motor Direction Toggle and Speed Definitions\
+\
+var1 = tkinter.IntVar()\
+var1.set(1)\
+tkinter.Radiobutton(frame, highlightthickness=0, text="Forward", variable=var1,\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 value=1).place(x=41, y=125)\
+tkinter.Radiobutton(frame, highlightthickness=0, text="Backward",\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 variable=var1, value=2).place(x=127, y=125)\
+w1 = tkinter.Spinbox(width=5, values=(100, 90, 80, 70, 60, 50, 40, 30, 20, 10))\
+w1.place(x=145, y=160)\
+\
+var3 = tkinter.IntVar()\
+var3.set(1)\
+tkinter.Radiobutton(frame, highlightthickness=0, text="Forward", variable=var3,\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 value=1).place(x=461, y=125)\
+tkinter.Radiobutton(frame, highlightthickness=0, text="Backward",\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 variable=var3, value=2).place(x=547, y=125)\
+w3 = tkinter.Spinbox(width=5, values=(100, 90, 80, 70, 60, 50, 40, 30, 20, 10))\
+w3.place(x=565, y=160)}

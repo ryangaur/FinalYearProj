@@ -1,0 +1,124 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2512
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh15000\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 \expnd0\expndtw0\kerning0
+\
+\
+#Initialise Libraries\
+\
+import pigpio\
+import time\
+import RPi.GPIO as GPIO\
+import PiMotor\
+\
+GPIO.setwarnings(False)					#Clears GPIO pins\
+\
+#Name Individual Motors\
+\
+m1 = PiMotor.Motor("MOTOR1",1)\
+m3 = PiMotor.Motor("MOTOR3",1)\
+\
+motorAll = PiMotor.LinkedMotors(m1,m3).      #Synchronises Motors\
+\'a0 \
+#Define Sensor Pins\
+\
+TF_1 = 23\
+TF_2 = 25\
+\
+#Set pins as inputs/serial ports, set baud rate\
+\
+pi = pigpio.pi()\
+pi.set_mode(TF_1, pigpio.INPUT)\
+pi.bb_serial_read_open(TF_1, 115200)\
+\
+\
+pi2 = pigpio.pi()\
+pi2.set_mode(TF_2, pigpio.INPUT)\
+pi2.bb_serial_read_open(TF_2, 115200)\
+\
+\
+#Create function to read sensors and control motors\
+\
+def Obstacle():\
+\'a0 while True:							#Run Continuously \
+\'a0 \'a0 time.sleep(0.05) \'a0 \'a0\
+\'a0 \'a0 (inc, rec) = pi.bb_serial_read(TF_1)	#Collect raw input from sensor\
+\'a0 \'a0 if inc > 8:							\
+\'a0 \'a0 \'a0 for i in range(0, inc-9):				#Receive first 8 data points\
+\'a0 \'a0 \'a0 \'a0 if rec[i] == 89 and rec[i+1] == 89: 		#Begin conversion into digital space\
+\'a0 \'a0 \'a0 \'a0 \'a0 check = 0\
+\'a0 \'a0 \'a0 \'a0 \'a0 for j in range(0, 8):\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 check = check + rec[i+j]\
+\'a0 \'a0 \'a0 \'a0 \'a0 check = check % 256\
+\'a0 \'a0 \'a0 \'a0 \'a0 if check == rec[i+8]:\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 distance = rec[i+2] + rec[i+3] * 256	#Convert into decimal\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 strength = rec[i+4] + rec[i+5] * 256\
+\'a0 \'a0 \
+\'a0\
+#Repeat for the second sensor\
+\
+\
+\'a0 \'a0 (inc2, rec2) = pi2.bb_serial_read(TF_2)\
+\'a0 \'a0 if inc2 > 8:\
+\'a0 \'a0 \'a0 for i in range(0, inc2-9):\
+\'a0 \'a0 \'a0 \'a0 if rec2[i] == 89 and rec2[i+1] == 89: \
+\'a0 \'a0 \'a0 \'a0 \'a0 check2 = 0\
+\'a0 \'a0 \'a0 \'a0 \'a0 for j in range(0, 8):\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 check2 = check2 + rec2[i+j]\
+\'a0 \'a0 \'a0 \'a0 \'a0 check2 = check2 % 256\
+\'a0 \'a0 \'a0 \'a0 \'a0 if check2 == rec2[i+8]:\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 distance2 = rec2[i+2] + recv2[i+3] * 256\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 strength2 = rec2[i+4] + recv2[i+5] * 256\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 print(distance, strength, distance2, strength2)\
+\
+#Compare values from sensors and drive motors accordingly\
+\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 if distance>distance2 and distance>40:\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 motorAll.forward(100)\
+\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 elif distance>distance2 and distance<40:\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 m1.forward(100)\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 m3.stop()						#Steering achieved by running only one motor\
+\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 elif distance2>distance and distance2>40:\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 motorAll.reverse(100)\
+\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 elif distance2>distance and distance2<40:\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 m1.reverse(100)\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 m3.stop()\
+\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 elif distance == distance2:\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 motorAll.forward(100)\
+\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \
+\
+\
+if __name__ == '__main__':				#Keeps code from running above function without being called\
+\'a0 try:\
+\'a0 \'a0 Obstacle()							#Run function	\
+\'a0 \'a0 \
+\'a0 except KeyboardInterrupt:				#In the case of the code being stopped, run these functions\
+\'a0 \'a0 \'a0 motorAll.stop()\
+\'a0 \'a0 \'a0\
+\'a0 \'a0 \'a0 time.sleep(5)\
+\'a0 \'a0 \'a0 pi.bb_serial_read_close(TF_1)			#Close GPIO pins\
+\'a0 \'a0 \'a0 pi2.bb_serial_read_close(TF_2)\
+\'a0 \'a0 \'a0 pi.stop()\
+\'a0 \'a0 \'a0 GPIO.cleanup()						#Reset GPIO pins\
+\'a0 except: \'a0								#In case code stops for other reasons\
+\'a0 \'a0 pi.bb_serial_read_close(TF_1)\
+\'a0 \'a0 pi2.bb_serial_read_close(TF_2)\
+\'a0 \'a0 pi.stop()\
+\'a0 \'a0 GPIO.cleanup()\
+\'a0 \'a0 \
+\'a0 \'a0 \
+\
+\'a0 \'a0 \
+GPIO.cleanup()}
